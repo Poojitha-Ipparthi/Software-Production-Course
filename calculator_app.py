@@ -1,6 +1,6 @@
 import os
 
-HISTORY_FILE = "history.txt"
+HISTORY_FILE = "/history/history.txt"
 
 def add(a, b):
     return a + b
@@ -19,6 +19,7 @@ def divide(a, b):
 def save_history(operation, a, b, result):
     with open(HISTORY_FILE, "a") as file:
         file.write(f"{a} {operation} {b} = {result}\n")
+        file.flush()  
 
 def show_history():
     if os.path.exists(HISTORY_FILE):
@@ -27,6 +28,13 @@ def show_history():
             print(file.read())
     else:
         print("\nNo history found.")
+
+def get_number(prompt):
+    while True:
+        try:
+            return float(input(prompt))
+        except ValueError:
+            print("Invalid input! Please enter a valid number.")
 
 def calculator():
     while True:
@@ -41,8 +49,8 @@ def calculator():
         choice = input("Select an option (1-6): ")
         
         if choice in ["1", "2", "3", "4"]:
-            a = float(input("Enter first number: "))
-            b = float(input("Enter second number: "))
+            a = get_number("Enter first number: ")
+            b = get_number("Enter second number: ")
             
             if choice == "1":
                 result = add(a, b)
@@ -67,7 +75,7 @@ def calculator():
             print("Exiting...")
             break
         else:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice. Please enter a number between 1 and 6.")
 
 if __name__ == "__main__":
     calculator()
